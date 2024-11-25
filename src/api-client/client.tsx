@@ -12,15 +12,20 @@ export class ApiConnectionError extends Error {
     }
   }
 
+function createHeaders(): HeadersInit {
+    return {
+        'Accept': 'application/json',
+        'ngrok-skip-browser-warning': 'true',
+    };
+}
+
 export async function getDeals(): Promise<DealResponse[]> {
     const apiUrl = `${baseUrl}${getDealsEndpoint}`;
 
     try {
         const response = await fetch(apiUrl, {
             method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-            },
+            headers: createHeaders(),
         });
 
         if (!response.ok)
@@ -44,9 +49,7 @@ export async function getSettings(): Promise<DBSetting[]> {
     try {
         const response = await fetch(apiUrl, {
             method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-            },
+            headers: createHeaders(),
         });
 
         if (!response.ok)
