@@ -1,5 +1,10 @@
 import { DBSetting, DealResponse } from "../data/DataModels";
 
+const baseUrl = 'https://just-readily-baboon.ngrok-free.app/';
+const getDealsEndpoint = 'get-deals';
+const getSettingsEndpoint = 'get-settings';
+const updateSettingEndpoint = 'update-setting';
+
 export class ApiConnectionError extends Error {
     constructor(message: string) {
       super(message);
@@ -8,8 +13,7 @@ export class ApiConnectionError extends Error {
   }
 
 export async function getDeals(): Promise<DealResponse[]> {
-    const baseUrl = 'http://127.0.0.1:5010/get-deals';
-    const apiUrl = `${baseUrl}`;
+    const apiUrl = `${baseUrl}${getDealsEndpoint}`;
 
     try {
         const response = await fetch(apiUrl, {
@@ -35,8 +39,7 @@ export async function getDeals(): Promise<DealResponse[]> {
 }
 
 export async function getSettings(): Promise<DBSetting[]> {
-    const baseUrl = 'http://127.0.0.1:5010/get-settings';
-    const apiUrl = `${baseUrl}`;
+    const apiUrl = `${baseUrl}${getSettingsEndpoint}`;
 
     try {
         const response = await fetch(apiUrl, {
@@ -64,7 +67,7 @@ export async function getSettings(): Promise<DBSetting[]> {
 export async function updateSetting(key: string, value: string): Promise<boolean> {
     const bodyJson = JSON.stringify({ key, value });
     try {
-        const response = await fetch('http://127.0.0.1:5010/update-setting', {
+        const response = await fetch(`${baseUrl}${updateSettingEndpoint}`, {
             method: 'POST',
             mode: "cors",
             headers: {
