@@ -1,7 +1,9 @@
 import React, { createContext, useState, ReactNode, useEffect } from 'react';
 import { DataContext, DealResponseWrapper, UISettings, APISettings, AllSettings } from './DataModels';
-import { getDeals, updateSetting, getSettings } from '../api-client/client';
-import { SystemNotification } from './SystemNotification'; 
+import { getDeals, updateSetting, getSettings, ApiConnectionError, authenticate } from '../api-client/client';
+import { useSystemNotification } from './SystemNotification';
+import useSnackbarUtils from '../components/SnackbarUtils';
+import { useLoading } from '../components/LoadingScreen';
 
 
 interface PrivateDataContext extends DataContext {
@@ -70,6 +72,8 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [last_refresh_time, setLastRefreshTime] = useState<Date>(new Date())
   const [listeners, setListeners] = useState<Set<() => void>>(new Set());
   const [fetched_deals_ids, setFetched_deals_ids] = useState<Set<string>>(new Set<string>());
+  const {showSnackbar} = useSnackbarUtils(); 
+  const {showLoadingScreen, hideLoadingScreen} = useLoading();
 
   const notifyListeners = () => {
     listeners.forEach((listener) => listener());
@@ -105,6 +109,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const savedPushNotifications = localStorage.getItem('pushNotifications');
     const savedAutoRefresh = localStorage.getItem('autoRefresh');
     const savedRefreshInterval = localStorage.getItem('refreshInterval');
+    showLoadingScreen();
     try {
       const all = await getSettings();
       const DBApiScanInterval = all.find(setting => setting.key === 'apiScanInterval');
@@ -131,7 +136,11 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       });
       return true;
     } catch (error){
+      if (error instanceof ApiConnectionError)
+        showSnackbar('Unable to fetch settings from database - check API connection', 'error');
       return false;
+    } finally {
+      hideLoadingScreen();
     }
   }
 
@@ -249,7 +258,15 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }
 
   useEffect(() => {
-    loadSettings();
+    const auth = async () => {
+      try{
+        await authenticate();
+        loadSettings();
+      }catch (error){
+        
+      }
+  };
+    auth();
   }, []);
   
   return (
@@ -291,6 +308,9 @@ export const useListeners = () => {
 
 export const useFetchData = () => {
   const { settings, history, fetched_deals_ids, setAltcoinsDeals, setEthDerivativesDeals, setLastRefreshTime } = usePrivateDataContext();
+  const {sendNotification} = useSystemNotification();
+  const {showSnackbar} = useSnackbarUtils(); 
+  const {showLoadingScreen, hideLoadingScreen} = useLoading();
 
   const addToHistory = (newDeals: DealResponseWrapper[]) => {
     for (let i = 0; i < newDeals.length; i++){
@@ -308,6 +328,7 @@ export const useFetchData = () => {
   }
 
   const fetchData = async () => {
+    showLoadingScreen();
     try {
       const deals = await getDeals();
       const dealsWrapper: DealResponseWrapper[] = deals.map(deal => {
@@ -351,7 +372,7 @@ export const useFetchData = () => {
       setAltcoinsDeals(altcoins);
       setEthDerivativesDeals(ethDerivatives);
       if (settings.uiSettings.pushNotifications){
-        SystemNotification.sendNotification({
+        sendNotification({
           title: "ArbitrageUI alert",
           message: `Found ${altcoins.length + ethDerivatives.length} new potential deals`,
           icon: "logo192.png"
@@ -359,7 +380,11 @@ export const useFetchData = () => {
       }
       return deals;
     } catch (error) {
+      if (error instanceof ApiConnectionError)
+        showSnackbar('Unable to fetch data from database - check API connection', 'error');
       throw error;
+    } finally {
+      hideLoadingScreen();
     }
   };
 

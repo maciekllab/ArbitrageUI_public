@@ -1,29 +1,35 @@
-import React, { useState } from "react";
+import useSnackbarUtils from "../components/SnackbarUtils";
 
 export interface SystemNotificationProps {
-    title:string;
-    message:string;
-    icon:string;
+  title: string;
+  message: string;
+  icon: string;
 }
 
-export const SystemNotification = {
-  requestPermission: () => {
+export const useSystemNotification = () => {
+  const {showSnackbar} = useSnackbarUtils(); 
+
+
+  const requestPermission = () => {
     if ("Notification" in window) {
-      Notification.requestPermission().then((permission) => {
+      Notification.requestPermission().then(() => {
+        showSnackbar("Notification permission requested.", 'info');
       });
     } else {
-      alert("Your browser does not support system notifications.");
+      showSnackbar("Your browser does not support system notifications.", 'info');
     }
-  },
+  };
 
-  sendNotification: (props: SystemNotificationProps) => {
+  const sendNotification = (props: SystemNotificationProps) => {
     if (Notification.permission === "granted") {
       new Notification(props.title, {
         body: props.message,
         icon: props.icon,
       });
     } else {
-      alert("You need to enable push notifications");
+      showSnackbar("You need to enable notifications.", 'info');
     }
-  },
+  };
+
+  return { requestPermission, sendNotification };
 };

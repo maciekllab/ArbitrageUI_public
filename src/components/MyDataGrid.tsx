@@ -10,7 +10,6 @@ import OpenInBrowserIcon from '@mui/icons-material/OpenInBrowser';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import MyBarChart from './MyBarChart';
 import {BridgeAggregatorDialog } from './BridgeAggregator';
-import { error } from 'console';
 
 type MyDataGridProps = {
   data: DealResponseWrapper[];

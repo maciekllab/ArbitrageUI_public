@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Container, Typography, FormControlLabel, Checkbox, TextField, Box, Paper, Button, Grid, Stack } from '@mui/material';
 import { useDataContext, useSettings } from '../data/DataProvider';
 import { APISettings, UISettings } from '../data/DataModels';
-import { SystemNotification } from '../data/SystemNotification';
+import { useSystemNotification } from '../data/SystemNotification';
+import useSnackbarUtils from '../components/SnackbarUtils';
+import { useLoading } from '../components/LoadingScreen';
 
 export default function SettingsPage() {
   const [autoRefresh, setAutoRefresh] = useState(false);
@@ -17,6 +19,9 @@ export default function SettingsPage() {
   const [ethDerivativesMinProfitError, setEthDerivativesMinProfitError] = useState(false);
   const {setSettings} = useSettings();
   const { settings, loadSettings, saveSettings} = useDataContext();
+  const {requestPermission ,sendNotification} = useSystemNotification();
+  const {showSnackbar} = useSnackbarUtils(); 
+  const {showLoadingScreen, hideLoadingScreen} = useLoading();
 
   useEffect(() => {
     const loadSettingsData = async () => {
@@ -24,7 +29,9 @@ export default function SettingsPage() {
       setAutoRefresh(settings.uiSettings.autoRefresh);
       setRefreshInterval(settings.uiSettings.refreshInterval.toString());
 
-      const loaded = await loadSettings();
+      showLoadingScreen();
+      await loadSettings();
+      hideLoadingScreen();
       setApiScanInterval(settings.apiSettings.apiScanInterval.toString());
       setAltcoinsMinProfit(settings.apiSettings.altcoinsMinProfit.toString());
       setEthDerivativesMinProfit(settings.apiSettings.ethDerivativesMinProfit.toString());
@@ -81,10 +88,19 @@ export default function SettingsPage() {
   }
 
   const saveSettingsToDatabase = async () => {
-    let isOk = await saveSettings('apiScanInterval', apiScanInterval);
-    isOk = await saveSettings('altcoinsMinProfit', altcoinsMinProfit) && true;
-    isOk = await saveSettings('ethDerivativesMinProfit', ethDerivativesMinProfit) && true;
-    return isOk;
+    showLoadingScreen();
+    let isOK = false;
+    try{
+      isOK = await saveSettings('apiScanInterval', apiScanInterval);
+      isOK = await saveSettings('altcoinsMinProfit', altcoinsMinProfit) && true;
+      isOK = await saveSettings('ethDerivativesMinProfit', ethDerivativesMinProfit) && true;
+    }
+    catch(error){
+
+    } finally {
+      hideLoadingScreen();
+    }
+    return isOK;
   }
 
   const handlePushNotificationsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,7 +129,7 @@ export default function SettingsPage() {
 
   const handleSaveSettings = async () => {
     if (pushNotifications){
-      SystemNotification.requestPermission();
+      requestPermission();
     }
     if (validate_settings()) {
       const apiSettings : APISettings = {
@@ -133,9 +149,9 @@ export default function SettingsPage() {
       saveSettingsToMemory();
       const dbSuccess = await saveSettingsToDatabase();
       if (dbSuccess){
-        alert('Settings saved successfully!');
+        showSnackbar('Settings saved successfully!', 'success');
       } else {
-        alert('Failed to save settings to database');
+        showSnackbar('Failed to save settings to database', 'error' );
       }
     }
   };

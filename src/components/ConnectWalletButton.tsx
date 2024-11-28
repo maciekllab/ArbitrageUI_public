@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { BrowserProvider, ethers } from 'ethers';
+import { ethers } from 'ethers';
 import Button from '@mui/material/Button';
 import WalletIcon from '@mui/icons-material/WalletOutlined';
+import useSnackbarUtils from "./SnackbarUtils";
 
 function ConnectButton() {
   const [walletAddress, setWalletAddress] = useState("");
   const [balance, setBalance] = useState<bigint | null>(null);
   const [showInfo, setShowInfo] = useState(false);
+  const {showSnackbar} = useSnackbarUtils(); 
 
   async function requestAccount() {
     try {
@@ -34,7 +36,7 @@ function ConnectButton() {
       }
     } 
     else {
-      alert("No metamask installed!");
+      showSnackbar("Metamask browser extension is not installed", 'warning')
     }
   }
 

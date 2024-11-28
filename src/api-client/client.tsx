@@ -1,9 +1,10 @@
 import { DBSetting, DealResponse } from "../data/DataModels";
 
-const baseUrl = 'https://just-readily-baboon.ngrok-free.app/';
+const baseUrl = 'http://192.168.8.128:5010/';
 const getDealsEndpoint = 'get-deals';
 const getSettingsEndpoint = 'get-settings';
 const updateSettingEndpoint = 'update-setting';
+const authenticateEndpoint = 'auth';
 
 export class ApiConnectionError extends Error {
     constructor(message: string) {
@@ -19,14 +20,56 @@ function createHeaders(): HeadersInit {
     };
 }
 
-export async function getDeals(): Promise<DealResponse[]> {
-    const apiUrl = `${baseUrl}${getDealsEndpoint}`;
+async function fetchWithTimeout(resource: string, options: RequestInit, timeout: number): Promise<Response> {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    const signal = controller.signal;
+
+    try {
+        const response = await fetch(resource, { ...options, signal });
+        clearTimeout(id);
+        return response;
+    } catch (error) {
+        if (error instanceof Error && error.name === 'AbortError') {
+            throw new ApiConnectionError('Request aborted - check API connection');
+        }
+        throw error;
+    }
+}
+
+export async function authenticate(): Promise<null> {
+    const apiUrl = `${baseUrl}${authenticateEndpoint}`;
 
     try {
         const response = await fetch(apiUrl, {
             method: 'GET',
             headers: createHeaders(),
+            credentials: 'include',
         });
+
+        if (!response.ok)
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        
+        return null;
+
+    } catch (error) {
+        if (error instanceof TypeError) {
+            throw new ApiConnectionError(error.message)
+        } else {
+            throw error;
+        }
+    }
+}
+
+export async function getDeals(): Promise<DealResponse[]> {
+    const apiUrl = `${baseUrl}${getDealsEndpoint}`;
+
+    try {
+        const response = await fetchWithTimeout(apiUrl, {
+            method: 'GET',
+            headers: createHeaders(),
+            credentials: 'include',
+        }, 2000);
 
         if (!response.ok)
             throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -47,10 +90,11 @@ export async function getSettings(): Promise<DBSetting[]> {
     const apiUrl = `${baseUrl}${getSettingsEndpoint}`;
 
     try {
-        const response = await fetch(apiUrl, {
+        const response = await fetchWithTimeout(apiUrl, {
             method: 'GET',
             headers: createHeaders(),
-        });
+            credentials: 'include',
+        }, 2000);
 
         if (!response.ok)
             throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -70,14 +114,15 @@ export async function getSettings(): Promise<DBSetting[]> {
 export async function updateSetting(key: string, value: string): Promise<boolean> {
     const bodyJson = JSON.stringify({ key, value });
     try {
-        const response = await fetch(`${baseUrl}${updateSettingEndpoint}`, {
+        const response = await fetchWithTimeout(`${baseUrl}${updateSettingEndpoint}`, {
             method: 'POST',
             mode: "cors",
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: bodyJson
-        });
+            body: bodyJson, 
+            credentials: 'include',
+        }, 1000);
          return response.ok &&  response.status === 201;
     } catch {
         return false;
