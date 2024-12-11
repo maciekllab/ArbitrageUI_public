@@ -1,6 +1,6 @@
 import { DBSetting, DealResponse } from "../data/DataModels";
 
-const baseUrl = 'http://127.0.0.1:5010/';
+const baseUrl = 'https://just-readily-baboon.ngrok-free.app/';
 const getDealsEndpoint = 'get-deals';
 const getSettingsEndpoint = 'get-settings';
 const updateSettingEndpoint = 'update-setting';
