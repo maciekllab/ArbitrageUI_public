@@ -1,0 +1,261 @@
+{
+  "success": true,
+  "result": [
+    {
+      "chainId": 5000,
+      "address": "0xac290ad4e0c891fdc295ca4f0a6214cf6dc6acdc",
+      "name": "USD Coin",
+      "symbol": "USDC",
+      "decimals": 6,
+      "logoURI": "https://media.socket.tech/tokens/all/USDC"
+    },
+    {
+      "chainId": 5000,
+      "address": "0xe265fc71d45fd791c9ebf3ee0a53fbb220eb8f75",
+      "name": "Curve DAO Token",
+      "symbol": "CRV",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/CRV"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x0994206dfe8de6ec6920ff4d779b0d950605fb53",
+      "name": "Curve.Fi USD Stablecoin",
+      "symbol": "CRVUSD",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/CRVUSD"
+    },
+    {
+      "chainId": 5000,
+      "address": "0xdeaddeaddeaddeaddeaddeaddeaddeaddead1111",
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/ETH"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x09bc4e0d864854c6afb6eb9a9cdf58ac190d0df9",
+      "name": "USDC",
+      "symbol": "USD COIN",
+      "decimals": 6,
+      "logoURI": "https://token-list.mantle.xyz/data/USDC/logo.png"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x96630b0d78d29e7e8d87f8703de7c14b2d5ae413",
+      "name": "ApeX Token",
+      "symbol": "APEX",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/APEX"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x3e65ac1dd4938e02301c4869d3043903f5deb474",
+      "name": "Baby Doge Coin",
+      "symbol": "BABYDOGE",
+      "decimals": 9,
+      "logoURI": "https://media.socket.tech/tokens/all/BABYDOGE"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x3390108e913824b8ead638444cc52b9abdf63798",
+      "name": "Bella",
+      "symbol": "BEL",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/BEL"
+    },
+    {
+      "chainId": 5000,
+      "address": "0xe7798f023fc62146e8aa1b36da45fb70855a77ea",
+      "name": "Custom UPS",
+      "symbol": "CUPS",
+      "decimals": 18,
+      "logoURI": null
+    },
+    {
+      "chainId": 5000,
+      "address": "0x9e1028f5f1d5ede59748ffcee5532509976840e0",
+      "name": "Equilibria Pendle",
+      "symbol": "EPENDLE",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/EPENDLE"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x6efff76acf1698a6a215eca7d632991678ec673b",
+      "name": "FLOKI",
+      "symbol": "FLOKI",
+      "decimals": 9,
+      "logoURI": "https://media.socket.tech/tokens/all/FLOKI"
+    },
+    {
+      "chainId": 5000,
+      "address": "0xa29b548056c3fd0f68bad9d4829ec4e66f22f796",
+      "name": "Idexo Token",
+      "symbol": "IDO",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/IDO"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x6968f3f16c3e64003f02e121cf0d5ccbf5625a42",
+      "name": "IONX",
+      "symbol": "IONX",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/IONX"
+    },
+    {
+      "chainId": 5000,
+      "address": "0xf93a85d53e4af0d62bdf3a83ccfc1ecf3eaf9f32",
+      "name": "LUSD Stablecoin",
+      "symbol": "LUSD",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/LUSD"
+    },
+    {
+      "chainId": 5000,
+      "address": "0xcda86a272531e8640cd7f1a92c01839911b90bb0",
+      "name": "mETH",
+      "symbol": "METH",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/METH"
+    },
+    {
+      "chainId": 5000,
+      "address": "0xd27b18915e7acc8fd6ac75db6766a80f8d2f5729",
+      "name": "PENDLE",
+      "symbol": "PENDLE",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/PENDLE"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x49397ac9cb061152b770b1d274a5682155f20099",
+      "name": "SHIBA INU",
+      "symbol": "SHIB",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/SHIB"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x35d48a789904e9b15705977192e5d95e2af7f1d3",
+      "name": "Tellor Tributes",
+      "symbol": "TRB",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/TRB"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x8fe7176f0bf63358ad9490fd24ac0bdb4dac33a8",
+      "name": "USDLR by Stable",
+      "symbol": "USDLR",
+      "decimals": 6,
+      "logoURI": "https://media.socket.tech/tokens/all/USDLR"
+    },
+    {
+      "chainId": 5000,
+      "address": "0xcabae6f6ea1ecab08ad02fe02ce9a44f09aebfa2",
+      "name": "Wrapped BTC",
+      "symbol": "WBTC",
+      "decimals": 8,
+      "logoURI": "https://media.socket.tech/tokens/all/WBTC"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x26a6b0dcdcfb981362afa56d581e4a7dba3be140",
+      "name": "Puff",
+      "symbol": "PUFF",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/PUFF"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x4200000000000000000000000000000000000006",
+      "name": null,
+      "symbol": "",
+      "decimals": 0,
+      "logoURI": null
+    },
+    {
+      "chainId": 5000,
+      "address": "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000",
+      "name": "Mantle",
+      "symbol": "MNT",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/MNT"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x3e7ef8f50246f725885102e8238cbba33f276747",
+      "name": "Equilibria Token",
+      "symbol": "EQB",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/EQB"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x8baf44b350ef672232a6673e1e128c7875640477",
+      "name": "Pepe",
+      "symbol": "PEPE",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/PEPE"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x91824fc3573c5043837f6357b72f60014a710501",
+      "name": "Aperture",
+      "symbol": "APTR",
+      "decimals": 6,
+      "logoURI": "https://media.socket.tech/tokens/all/APTR"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x201eba5cc46d216ce6dc03f6a759e8e766e956ae",
+      "name": "USDT",
+      "symbol": "TETHER USD",
+      "decimals": 6,
+      "logoURI": "https://token-list.mantle.xyz/data/USDT/logo.svg"
+    },
+    {
+      "chainId": 5000,
+      "address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "name": "Mantle",
+      "symbol": "MNT",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/MNT"
+    },
+    {
+      "chainId": 5000,
+      "address": "0xfc88835694b1befe3506595303e37240f9d6a135",
+      "name": "ImpermaxFinance Token",
+      "symbol": "IBEX",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/IBEX"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x2db08783f13c4225a1963b2437f0d459a5bcb4d8",
+      "name": "Uniswap",
+      "symbol": "UNI",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/UNI"
+    },
+    {
+      "chainId": 5000,
+      "address": "0xd0cf7dfbf09cafab8aef00e0ce19a4638004a364",
+      "name": "DODO bird",
+      "symbol": "DODO",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/DODO"
+    },
+    {
+      "chainId": 5000,
+      "address": "0x056d4a69d243f176f6d1668722be386c3d50e27b",
+      "name": "Ember Sword",
+      "symbol": "EMBER",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/EMBER"
+    }
+  ]
+}

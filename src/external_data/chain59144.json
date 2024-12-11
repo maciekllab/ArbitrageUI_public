@@ -1,0 +1,77 @@
+{
+    "success": true,
+    "result": [
+        {
+            "chainId": 59144,
+            "address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+            "name": "Ethereum",
+            "symbol": "ETH",
+            "decimals": 18,
+            "logoURI": "https://media.socket.tech/tokens/all/ETH"
+        },
+        {
+            "chainId": 59144,
+            "address": "0x176211869ca2b568f2a7d4ee941e073a821ee1ff",
+            "name": "USDCoin",
+            "symbol": "USDC.E",
+            "decimals": 6,
+            "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png"
+        },
+        {
+            "chainId": 59144,
+            "address": "0xa219439258ca9da29e9cc4ce5596924745e12b93",
+            "name": "USDT",
+            "symbol": "TETHER USD",
+            "decimals": 6,
+            "logoURI": "https://token-list.mantle.xyz/data/USDT/logo.svg"
+        },
+        {
+            "chainId": 59144,
+            "address": "0xe5d7c2a44ffddf6b295a15c148167daaaf5cf34f",
+            "name": "Wrapped Ether",
+            "symbol": "WETH",
+            "decimals": 18,
+            "logoURI": "https://media.socket.tech/tokens/all/WETH"
+        },
+        {
+            "chainId": 59144,
+            "address": "0xc5102fe9359fd9a28f877a67e36b0f050d81a3cc",
+            "name": "Hop",
+            "symbol": "HOP",
+            "decimals": 18,
+            "logoURI": "https://media.socket.tech/tokens/all/HOP"
+        },
+        {
+          "chainId": 59144,
+          "address": "0x4af15ec2a0bd43db75dd04e62faa3b8ef36b00d5",
+          "name": "Dai Stablecoin",
+          "symbol": "DAI",
+          "decimals": 18,
+          "logoURI": null
+        },
+        {
+          "chainId": 59144,
+          "address": "0x3aab2285ddcddad8edf438c1bab47e1a9d05a9b4",
+          "name": "Wrapped BTC",
+          "symbol": "WBTC",
+          "decimals": 8,
+          "logoURI": null
+        },
+        {
+          "chainId": 59144,
+          "address": "0x6ef95b6f3b0f39508e3e04054be96d5ee39ede0d",
+          "name": "Symbiosis",
+          "symbol": "SIS",
+          "decimals": 18,
+          "logoURI": null
+        },
+        {
+          "chainId": 59144,
+          "address": "0x1bf74c010e6320bab11e2e5a532b5ac15e0b8aa6",
+          "name": "Wrapped eETH",
+          "symbol": "weETH",
+          "decimals": 18,
+          "logoURI": null
+        }
+    ]
+}

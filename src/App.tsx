@@ -24,11 +24,6 @@ function App() {
               <MyToolbar/> 
             </AppBar>
             <Drawer
-              PaperProps={{
-                sx: {
-                  backgroundColor: "grey.50",
-                }
-              }}
               variant="permanent"
               sx={{
                 width: drawerWidth,

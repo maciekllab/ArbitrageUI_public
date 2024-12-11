@@ -1,0 +1,93 @@
+{
+  "success": true,
+  "result": [
+    {
+      "chainId": 34443,
+      "address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/ETH"
+    },
+    {
+      "chainId": 34443,
+      "address": "0x4200000000000000000000000000000000000006",
+      "name": "Weth",
+      "symbol": "WETH",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/WETH"
+    },
+    {
+      "chainId": 34443,
+      "address": "0xd988097fb8612cc24eec14542bc03424c656005f",
+      "name": "Bridged USDC",
+      "symbol": "USDC",
+      "decimals": 6,
+      "logoURI": "https://media.socket.tech/tokens/all/USDC"
+    },
+    {
+      "chainId": 34443,
+      "address": "0xf0f161fda2712db8b566946122a5af183995e2ed",
+      "name": "Tether USD",
+      "symbol": "USDT",
+      "decimals": 6,
+      "logoURI": "https://media.socket.tech/tokens/all/USDT"
+    },
+    {
+      "chainId": 34443,
+      "address": "0x7c6b91d9be155a6db01f749217d76ff02a7227f2",
+      "name": "Aave Token",
+      "symbol": "AAVE",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/AAVE"
+    },
+    {
+      "chainId": 34443,
+      "address": "0xd08a2917653d4e460893203471f0000826fb4034",
+      "name": "Balancer",
+      "symbol": "BAL",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/BAL"
+    },
+    {
+      "chainId": 34443,
+      "address": "0x50c5725949a6f0c72e6c4a641f24049a917db0cb",
+      "name": "Chainlink",
+      "symbol": "LINK",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/LINK"
+    },
+    {
+      "chainId": 34443,
+      "address": "0x3e7ef8f50246f725885102e8238cbba33f276747",
+      "name": "Uniswap",
+      "symbol": "UNI",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/UNI"
+    },
+    {
+      "chainId": 34443,
+      "address": "0xcdd475325d6f564d27247d1dddbb0dac6fa0a5cf",
+      "name": "Wrapped BTC",
+      "symbol": "WBTC",
+      "decimals": 8,
+      "logoURI": "https://media.socket.tech/tokens/all/WBTC"
+    },
+    {
+      "chainId": 34443,
+      "address": "0xe7798f023fc62146e8aa1b36da45fb70855a77ea",
+      "name": "Dai Stablecoin",
+      "symbol": "DAI",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/DAI"
+    },
+    {
+      "chainId": 34443,
+      "address": "0x04c0599ae5a44757c0af6f9ec3b93da8976c150a",
+      "name": "Wrapped eETH",
+      "symbol": "weETH.mode",
+      "decimals": 18,
+      "logoURI": null
+    }
+  ]
+}

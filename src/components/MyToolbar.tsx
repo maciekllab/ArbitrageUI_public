@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import { Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { useDataContext, useFetchData } from '../data/DataProvider';
+import { useDataContext } from '../data/DataProvider';
 import ConnectButton from './ConnectWalletButton';
 
 
 export default function MyToolbar() {    
  
-  const {last_refresh_time} = useDataContext();
-  const {fetchData} = useFetchData();
+  const {last_refresh_time, fetchData} = useDataContext();
 
   const [refreshTime, setRefreshTime] = useState('Not refreshed');
 
@@ -20,18 +19,20 @@ export default function MyToolbar() {
   }
 
   useEffect(() => {
-    refreshData();
-  }, []);
+    const emptyDate = new Date(0);
 
-  useEffect(() => {
-    setRefreshTime(last_refresh_time.toLocaleTimeString());
+    if (last_refresh_time.getTime() === emptyDate.getTime()){
+      setRefreshTime('Not refreshed');
+    } else {
+      setRefreshTime(last_refresh_time.toLocaleTimeString());
+    }
   }, [last_refresh_time]);
 
   return (
     <>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant="h6" component="div">
-          Arbirage UI
+          Arbitrage UI
         </Typography>
         
         <Box sx={{ display: 'flex', alignItems: 'center', ml: 'auto' }}>

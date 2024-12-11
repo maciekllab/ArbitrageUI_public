@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import { useDataContext, useFetchData } from './DataProvider';
+import { useDataContext } from './DataProvider';
 
 export const AutoRefresh: React.FC = () => {
-  const { fetchData } = useFetchData();
-  const { settings } = useDataContext();
+  const { settings, fetchData } = useDataContext();
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;

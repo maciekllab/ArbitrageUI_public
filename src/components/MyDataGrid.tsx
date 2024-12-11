@@ -1,15 +1,19 @@
-import { DataGrid, GridColDef, GridColumnGroupingModel, GridRenderCellParams, GridSortDirection, GridTreeNodeWithRender } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridColumnGroupingModel, GridRenderCellParams, GridTreeNodeWithRender } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
 import { DealResponseWrapper } from '../data/DataModels';
 import { NetworkIcon, TokenIcon } from '@web3icons/react';
 import { useDataContext } from '../data/DataProvider';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, Tooltip } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, IconButtonProps, Link, Modal, Tooltip, Typography } from '@mui/material';
+import LaunchIcon from '@mui/icons-material/Launch';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import { BarChart } from '@mui/icons-material';
-import OpenInBrowserIcon from '@mui/icons-material/OpenInBrowser';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import MyBarChart from './MyBarChart';
 import {BridgeAggregatorDialog } from './BridgeAggregator';
+import InfoIcon from '@mui/icons-material/Info';
+import { useEthersProvider } from "./WalletProvider";
+import useSnackbarUtils from './SnackbarUtils';
 
 type MyDataGridProps = {
   data: DealResponseWrapper[];
@@ -19,14 +23,22 @@ export default function MyDataGrid({ data }: MyDataGridProps) {
   const [rows, setRows] = useState<{ id: number }[]>([]);
   const [open, setOpen] = React.useState(false);
   const [openBridgeDialog, setOpenBridgeDialog] = React.useState(false);
+  const [isBridgeInverted, setIsBridgeInverted] = React.useState(false);
+  const [openModal, setOpenModal] = React.useState(false);
   const [clickedChartRow, setClickedChartRow] = React.useState<DealResponseWrapper>();
+  const [clickedModalRow, setClickedModalRow] = React.useState<DealResponseWrapper>();
   const [clickedBridgeRow, setClickedBridgeRow] = React.useState<DealResponseWrapper>();
-  const {history, getSupportedDexName, getSupportedDexSite, getSupportedChainID} = useDataContext();
+  const {history, getSupportedDexName, getSupportedDexSite, getSupportedChainID, isTokenSupportedForChain, getStargateBridgeLink, settings} = useDataContext();
+  const {switchNetwork} = useEthersProvider();
+  const {showSnackbar} = useSnackbarUtils();
   const iconWidth = 20;
   const iconHeight = 20;
 
   useEffect(() => {
-    const formattedRows = data.map((deal, index) => ({
+    let visibleData = data;
+    if (settings.uiSettings.showOnlyCrosschain)
+      visibleData = data.filter(item => item.dest_chain != item.source_chain)
+    const formattedRows = visibleData.map((deal, index) => ({
       id: index + 1,
       ...deal,       
     }));
@@ -38,8 +50,22 @@ export default function MyDataGrid({ data }: MyDataGridProps) {
     setOpen(true)
   };
 
-  const handleOpenBridgeDialog = (rowData: DealResponseWrapper) => {
-    setClickedBridgeRow(rowData)
+  const handleOpenStargate = (rowData: DealResponseWrapper, event: React.MouseEvent<HTMLButtonElement>) => {
+    setIsBridgeInverted(event.ctrlKey);
+    const url = getStargateBridgeLink(rowData, event.ctrlKey);
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleOpenBridgeDialog = async (supportedQuote: boolean, supportedBase: boolean, rowData: DealResponseWrapper, event: React.MouseEvent<HTMLButtonElement>) => {
+    const bridgeSupported = supportedQuote && !event.ctrlKey || supportedBase && event.ctrlKey;
+    if (bridgeSupported){
+      const chainToSwitch = event.ctrlKey ? rowData.dest_chain : rowData.source_chain;
+      await switchNetwork(chainToSwitch);
+    } else {
+      showSnackbar("Bridge not supported", "info");
+    }
+    setIsBridgeInverted(event.ctrlKey);
+    setClickedBridgeRow(rowData);
     setOpenBridgeDialog(true);
   };
 
@@ -47,6 +73,14 @@ export default function MyDataGrid({ data }: MyDataGridProps) {
     setOpenBridgeDialog(false);
   };
 
+  const handleOpenModal = (rowData: DealResponseWrapper) => {
+    setClickedBridgeRow(rowData);
+    setClickedModalRow(rowData);
+    setOpenModal(true);
+  };
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   const getSupportedNetworkName = (chainName: string) => {
     switch (chainName) {
@@ -83,7 +117,7 @@ export default function MyDataGrid({ data }: MyDataGridProps) {
           <span>{params.value}</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', width: '40%' }}>
-          {getChainIcon(params.value)}
+          { params.value === 'canto' ? getDexIcon(params.value) : getChainIcon(params.value)}
         </div>
       </div>
     );
@@ -96,18 +130,27 @@ export default function MyDataGrid({ data }: MyDataGridProps) {
             {getDexIcon(params.value)}
           </div>
           <div style={{ textAlign: 'center', width: '60%' }}>
-            <Link target="_blank" href={getSupportedDexSite(params.value)}>{params.value}</Link>
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href={getSupportedDexSite(params.value)}
+          >
+            {params.value}
+          </Link>
           </div>
         </div>
     );
   }
 
   const columns: GridColDef[] = [
-    { field: 'pair', headerName: 'Tokens pair', width: 120 },
-    { field: 'buy_chain', headerName: 'Chain', width: 130, renderCell: renderChainCell },
-    { field: 'buy_dex', headerName: 'DEX', width: 130, renderCell: renderDexCell },
-    { field: 'sell_chain', headerName: 'Chain', width: 130, renderCell: renderChainCell },
-    { field: 'sell_dex', headerName: 'DEX', width: 130, renderCell: renderDexCell },
+    { field: 'pair', headerName: 'Pair', width: 120 },
+    { field: 'source_token', headerName: 'Swap', width: 55 },
+    { field: 'source_chain', headerName: 'Chain', width: 130, renderCell: renderChainCell },
+    { field: 'source_dex', headerName: 'DEX', width: 130, renderCell: renderDexCell },
+    { field: 'dest_token', headerName: 'Swap', width: 55 },
+    { field: 'dest_chain', headerName: 'Chain', width: 130, renderCell: renderChainCell },
+    { field: 'dest_dex', headerName: 'DEX', width: 130, renderCell: renderDexCell },
+    
     {
       field: 'profit',
       headerName: 'Profit',
@@ -116,7 +159,7 @@ export default function MyDataGrid({ data }: MyDataGridProps) {
       renderCell: (params) => {
         const value = params.value as number;
         const historyList = history.get(params.row.key);
-        let color = 'black'; 
+        let color = 'white'; 
         let show_question_icon = false;
         if (historyList && historyList.length > 1) {
           const firstInHistory = historyList[0];
@@ -127,7 +170,7 @@ export default function MyDataGrid({ data }: MyDataGridProps) {
           } else if (firstInHistory.profit > value) {
             color = 'orange';
           } else {
-            color = 'blue';
+            color = 'lightblue';
           }
         }
   
@@ -156,19 +199,65 @@ export default function MyDataGrid({ data }: MyDataGridProps) {
       disableColumnMenu: true,
       renderCell: (params: GridRenderCellParams) => {
         const row = params.row;
-        const sameChains = row.sell_chain === row.buy_chain
-        const supportedSellChainID = getSupportedChainID(row.sell_chain)
-        const supportedBuyChainID = getSupportedChainID(row.buy_chain)
-        const bothSupported = supportedBuyChainID !== -1 && supportedSellChainID !== -1
+        const qouteTokenSupportedOnSourceChain = isTokenSupportedForChain(row.source_chain_buy_token_address, row.source_chain);
+        const quoteTokenSupportedOnDestChain = isTokenSupportedForChain(row.dest_chain_sell_token_address, row.dest_chain);
+        const bothSupportedForQuote = quoteTokenSupportedOnDestChain && qouteTokenSupportedOnSourceChain;
+        const firstDirectionSupportedText = bothSupportedForQuote ? "OK" : "NOT SUPPORTED"
+        const directionText: string = `${row.source_token} / ${row.dest_token}  -  ${firstDirectionSupportedText}`;
+
+        const baseTokenSupportedOnDestChain = isTokenSupportedForChain(row.dest_chain_buy_token_address, row.dest_chain);
+        const baseTokenSupportedOnSourceChain = isTokenSupportedForChain(row.source_chain_sell_token_address, row.source_chain);
+        const bothSupportedForBase = baseTokenSupportedOnDestChain && baseTokenSupportedOnSourceChain;
+        const invertedDirectionSupportedText = bothSupportedForBase ? "OK" : "NOT SUPPORTED"
+        const invertedDirectionText: string = `${row.dest_token} / ${row.source_token}  -  ${invertedDirectionSupportedText}`;
+        
+        let color: IconButtonProps["color"] = "error";
+        if(bothSupportedForQuote || bothSupportedForBase){
+          color = "primary";
+        }
+        if (bothSupportedForQuote && bothSupportedForBase){
+          color = "success";
+        }
 
         return (
-          !sameChains && bothSupported && <IconButton
-          color= {bothSupported ? "default" : "error"}
-          size="small"
-          onClick={() => handleOpenBridgeDialog(params.row)}
-        >
-          <OpenInBrowserIcon />
-        </IconButton>
+          <>
+            <Tooltip
+              title={
+                <div style={{ textAlign: "center" }}>
+                  <strong>Bridge plugin</strong>
+                  <br/>
+                  {directionText}
+                  <br/>
+                  {invertedDirectionText}
+                  <br />
+                  <em style={{ fontSize: "smaller" }}>CTRL to reverse bridge direction</em>
+                </div>
+              }
+            >
+              <IconButton
+                color={color}
+                size="small"
+                onClick={(event) => handleOpenBridgeDialog(bothSupportedForQuote, bothSupportedForBase, params.row, event)}
+              >
+                <CurrencyExchangeIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={
+                <div style={{ textAlign: "center" }}>
+                  <strong>LayerZero bridge</strong>
+                  <br/>
+                  <em style={{ fontSize: "smaller" }}>CTRL to reverse bridge direction</em>
+                </div>
+              }>
+              <IconButton
+                color="default"
+                size="small"
+                onClick={(event) => handleOpenStargate(params.row, event)}
+              >
+                <LaunchIcon />
+              </IconButton>
+            </Tooltip>
+          </>
         )
       }
     },
@@ -219,18 +308,43 @@ export default function MyDataGrid({ data }: MyDataGridProps) {
       filterable: false,
       disableColumnMenu: true,
       renderCell: (params: GridRenderCellParams) => (
-        <IconButton
-        color="default"
-        size="small"
-        onClick={() => handleShowChartClick(params.row)}
-      >
-        <BarChart />
-      </IconButton>
+        <Tooltip title = "Show profit history data">
+          <IconButton
+                  color="default"
+                  size="small"
+                  onClick={() => handleShowChartClick(params.row)}
+                >
+                  <BarChart />
+          </IconButton>
+        </Tooltip>
       ),
       headerAlign: 'center',
       renderHeader: (params) => (
         <span style={{ fontSize: '0.75rem' }}>{params.colDef.headerName}</span>
       ),
+    },
+    {
+      field: 'detail',
+      headerName: 'Details',
+      width: 65,
+      sortable: false,
+      filterable: false,
+      disableColumnMenu: true,
+      renderCell: (params: GridRenderCellParams) => {
+        const row = params.row;
+
+        return (
+          <Tooltip title="Show deal's detail info">
+            <IconButton
+              color="default"
+              size="small"
+              onClick={() => handleOpenModal(params.row)}
+            >
+              <InfoIcon />
+            </IconButton>
+          </Tooltip>
+        )
+      }
     },
     { 
       field: 'date', 
@@ -254,17 +368,22 @@ export default function MyDataGrid({ data }: MyDataGridProps) {
         return `${dateFormatter}   ${timeFormatter}`;
       },
     },
-    { field: 'pair_address', headerName: 'Pair Address', width: 120 },
+    { field: 'source_pair_address', headerName: 'Source pair', width: 120 },
+    { field: 'source_chain_sell_token_address', headerName: 'Source sell', width: 120 },
+    { field: 'source_chain_buy_token_address', headerName: 'Source buy', width: 120 },
+    { field: 'dest_pair_address', headerName: 'Dest pair', width: 120 },
+    { field: 'dest_chain_sell_token_address', headerName: 'Dest sell', width: 120 },
+    { field: 'dest_chain_buy_token_address', headerName: 'Dest buy', width: 120 },
   ];
   
   const columnGroupingModel: GridColumnGroupingModel = [
     {
-      groupId: 'Buy',
-      children: [{ field: 'buy_token' },{ field: 'buy_chain' }, { field: 'buy_dex' }],
+      groupId: 'Source',
+      children: [{ field: 'source_token' },{ field: 'source_chain' }, { field: 'source_dex' }],
     },
     {
-      groupId: 'Sell',
-      children: [{ field: 'sell_token' },{ field: 'sell_chain' }, { field: 'sell_dex' }],
+      groupId: 'Destination',
+      children: [{ field: 'dest_token' },{ field: 'dest_chain' }, { field: 'dest_dex' }],
     },
     {
       groupId: 'Arbitrage',
@@ -276,7 +395,7 @@ export default function MyDataGrid({ data }: MyDataGridProps) {
     },
     {
       groupId: 'Others',
-      children: [{ field: 'date' }, { field: 'pair_address' }],
+      children: [{ field: 'date' }, { field: 'source_pair_address' }, { field: 'source_chain_sell_token_address' }, { field: 'source_chain_buy_token_address' }, { field: 'dest_pair_address' }, { field: 'dest_chain_sell_token_address' }, { field: 'dest_chain_buy_token_address' }],
     },
   ];
   
@@ -284,10 +403,10 @@ export default function MyDataGrid({ data }: MyDataGridProps) {
     <><BridgeAggregatorDialog 
         open={openBridgeDialog}  
         onClose={handleCloseBridgeDialog} 
-        defaultDestinationChainID={getSupportedChainID(clickedBridgeRow?.sell_chain || "")}
-        defaultSourceChainID={getSupportedChainID(clickedBridgeRow?.buy_chain || "")} 
-        defaultDestinationTokenAddress={clickedBridgeRow?.buy_token_address || ""}
-        defaultSourceTokenAddress={clickedBridgeRow?.sell_token_address || ""}
+        defaultDestinationChainID={getSupportedChainID(!isBridgeInverted ? clickedBridgeRow?.dest_chain || "" : clickedBridgeRow?.source_chain || "")}
+        defaultSourceChainID={getSupportedChainID(!isBridgeInverted ? clickedBridgeRow?.source_chain || "" : clickedBridgeRow?.dest_chain || "")} 
+        defaultDestinationTokenAddress={!isBridgeInverted ? clickedBridgeRow?.dest_chain_sell_token_address || "" : clickedBridgeRow?.source_chain_sell_token_address || "" }
+        defaultSourceTokenAddress={!isBridgeInverted ? clickedBridgeRow?.source_chain_buy_token_address || "" : clickedBridgeRow?.dest_chain_buy_token_address || ""}
       />
       <DataGrid
       rows={rows}
@@ -322,6 +441,9 @@ export default function MyDataGrid({ data }: MyDataGridProps) {
           alignItems: 'center',
           fontSize: '0.8rem'
         },
+        '& .MuiDataGrid-row:hover': {
+          backgroundColor: '#a3490d',
+        },
         minWidth: '100%',
         maxWidth: '100%',
         overflowX: 'auto',
@@ -334,6 +456,39 @@ export default function MyDataGrid({ data }: MyDataGridProps) {
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Zamknij</Button>
         </DialogActions>
-      </Dialog></>
+      </Dialog>
+      <Modal open={openModal} onClose={handleCloseModal}>
+        <Box
+            sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                bgcolor: 'background.paper',
+                boxShadow: 24,
+                p: 4,
+                borderRadius: 2,
+                maxWidth: '90%', 
+                maxHeight: '90%',
+                overflow: 'auto',
+            }}
+        >
+              <Typography variant="h6" component="h2">
+                  Deal details
+              </Typography>
+              <Box sx={{ mt: 2 }}>
+                  {clickedModalRow &&
+                      Object.entries(clickedModalRow).map(([key, value]) => (
+                          <Typography key={key}>
+                              <strong>{key}:</strong> {value instanceof Date ? value.toLocaleString() : value.toString()}
+                          </Typography>
+                      ))}
+              </Box>
+              <Button onClick={handleCloseModal} sx={{ mt: 2 }}>
+                  Close
+              </Button>
+          </Box>
+        </Modal>
+      </>
   );
 }

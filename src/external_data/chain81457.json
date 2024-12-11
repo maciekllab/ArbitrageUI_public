@@ -1,0 +1,77 @@
+{
+  "success": true,
+  "result": [
+    {
+      "chainId": 81457,
+      "address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/ETH"
+    },
+    {
+      "chainId": 81457,
+      "address": "0x4300000000000000000000000000000000000003",
+      "name": "Blast Rebasing USD",
+      "symbol": "USDB",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/blast/usdblast.png"
+    },
+    {
+      "chainId": 81457,
+      "address": "0x3194b0a295d87fdaa54df852c248f7a6baf6c6e0",
+      "name": "nUSD",
+      "symbol": "NUSD",
+      "decimals": 18,
+      "logoURI": null
+    },
+    {
+      "chainId": 81457,
+      "address": "0xce971282faac9fabcf121944956da7142cccc855",
+      "name": "nETH",
+      "symbol": "NETH",
+      "decimals": 18,
+      "logoURI": null
+    },
+    {
+      "chainId": 81457,
+      "address": "0x9592f08387134e218327e6e8423400eb845ede0e",
+      "name": "Synapse",
+      "symbol": "SYN",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/SYN"
+    },
+    {
+      "chainId": 81457,
+      "address": "0xcbf7b47e9da345812e3bd732e3ee369a7203b5ae",
+      "name": "pSTAKE Finance",
+      "symbol": "PSTAKE",
+      "decimals": 18,
+      "logoURI": "https://assets.coingecko.com/coins/images/23931/standard/PSTAKE_Dark.png"
+    },
+    {
+      "chainId": 81457,
+      "address": "0xf7bc58b8d8f97adc129cfc4c9f45ce3c0e1d2692",
+      "name": "Wrapped BTC",
+      "symbol": "WBTC",
+      "decimals": 8,
+      "logoURI": null
+    },
+    {
+      "chainId": 81457,
+      "address": "0x4300000000000000000000000000000000000004",
+      "name": "Weth",
+      "symbol": "WETH",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/WETH"
+    },
+    {
+      "chainId": 81457,
+      "address": "0xb1a5700fa2358173fe465e6ea4ff52e36e88e2ad",
+      "name": "Blast",
+      "symbol": "BLAST",
+      "decimals": 18,
+      "logoURI": "https://media.socket.tech/tokens/all/BLAST"
+    }
+  ]
+}

@@ -6,11 +6,28 @@ import reportWebVitals from './reportWebVitals';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { indigo } from '@mui/material/colors';
 import { HashRouter } from 'react-router-dom';
+import { setupXHRInterceptor } from './interceptors/xhrInterceptor';
+
+setupXHRInterceptor();
+
 
 let theme = createTheme({
   palette: {
-    primary: indigo,
-    secondary: indigo,
+    mode:"dark",
+    primary: {
+      main: '#E2703A',
+      contrastText: '#fff',
+    },
+    background: {
+      default: '#393053',
+      paper: '#443C68',
+    },
+    text: {
+      primary: '#bebdbf'
+    },
+    action: {
+      active: '#888888',
+    },
   },
 });
 

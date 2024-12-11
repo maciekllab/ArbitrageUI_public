@@ -1,18 +1,22 @@
 import { Bridge } from "@socket.tech/plugin";
-import { Provider } from "./WalletProvider"
+import { useEthersProvider } from "./WalletProvider";
 import { Dialog } from "@mui/material";
 
 export function BridgeAggregator(props: BridgeAggregatorDialogProps) {
+    const { defaultSourceChainID, defaultDestinationChainID, defaultSourceTokenAddress, defaultDestinationTokenAddress } = props;
+    const {provider} = useEthersProvider();
+
     return (
         <Bridge
-            API_KEY="645b2c8c-5825-4930-baf3-d9b997fcd88c"
-			provider={Provider}       
-            defaultDestNetwork={props.defaultDestinationChainID}
-            defaultSourceNetwork={props.defaultSourceChainID}
-            defaultDestToken={props.defaultDestinationTokenAddress}
-            defaultSourceToken={props.defaultSourceTokenAddress}
-		/>
-    )
+            API_KEY="075f779c-2691-491f-9389-3da42ab60f3a"
+            provider={provider}
+            defaultDestNetwork={defaultDestinationChainID}
+            defaultSourceNetwork={defaultSourceChainID}
+            defaultDestToken={defaultDestinationTokenAddress}
+            defaultSourceToken={defaultSourceTokenAddress}
+            enableSameChainSwaps={true}
+        />
+    );
 }
 
 export interface BridgeAggregatorDialogProps {
@@ -23,28 +27,26 @@ export interface BridgeAggregatorDialogProps {
     defaultSourceTokenAddress: string;
     defaultDestinationTokenAddress: string;
 }
-  
+
 export function BridgeAggregatorDialog(props: BridgeAggregatorDialogProps) {
     const { onClose, open, defaultDestinationChainID, defaultSourceChainID, defaultDestinationTokenAddress, defaultSourceTokenAddress } = props;
-  
+
     const handleClose = () => {
         onClose();
     };
 
     return (
-      <Dialog open={open} onClose={handleClose}>
-        <BridgeAggregator
-            open={open}
-            onClose={onClose}
-            defaultSourceChainID={defaultSourceChainID}
-            defaultDestinationChainID={defaultDestinationChainID}
-            defaultDestinationTokenAddress={defaultDestinationTokenAddress}
-            defaultSourceTokenAddress={defaultSourceTokenAddress}
-        />
-      </Dialog>
+        <Dialog open={open} onClose={handleClose}>
+            <BridgeAggregator
+                open={open}
+                onClose={onClose}
+                defaultSourceChainID={defaultSourceChainID}
+                defaultDestinationChainID={defaultDestinationChainID}
+                defaultDestinationTokenAddress={defaultDestinationTokenAddress}
+                defaultSourceTokenAddress={defaultSourceTokenAddress}
+            />
+        </Dialog>
     );
 }
-
-
 
 export default BridgeAggregator;

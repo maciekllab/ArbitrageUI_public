@@ -47,7 +47,7 @@ function ConnectButton() {
   }, [walletAddress])
 
   return (
-    <Button color= "secondary" variant= 'contained' onClick={connectWallet} startIcon={<WalletIcon />}>
+    <Button color= "primary" variant= 'contained' onClick={connectWallet} startIcon={<WalletIcon />}>
         {walletAddress == "" ? "Connect" : "Connected"}
     </Button>
   );

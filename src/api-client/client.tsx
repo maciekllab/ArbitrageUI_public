@@ -1,10 +1,12 @@
 import { DBSetting, DealResponse } from "../data/DataModels";
 
-const baseUrl = 'https://just-readily-baboon.ngrok-free.app/';
+const baseUrl = 'http://127.0.0.1:5010/';
 const getDealsEndpoint = 'get-deals';
 const getSettingsEndpoint = 'get-settings';
 const updateSettingEndpoint = 'update-setting';
 const authenticateEndpoint = 'auth';
+const subscribeEndpoint = 'subscribe-notification';
+const unsubscribeEndpoint = 'unsubscribe-notification';
 
 export class ApiConnectionError extends Error {
     constructor(message: string) {
@@ -128,3 +130,67 @@ export async function updateSetting(key: string, value: string): Promise<boolean
         return false;
     }
 }
+
+export async function subscribe_notification(email: string, min_profit: number): Promise<{ info: string; status: number }> {
+    const bodyJson = JSON.stringify({
+        email: email,
+        min_profit: min_profit
+    });
+    try {
+        const response = await fetchWithTimeout(`${baseUrl}${subscribeEndpoint}`, {
+            method: 'POST',
+            mode: "cors",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: bodyJson, 
+            credentials: 'include',
+        }, 10000);
+
+        const responseData = await response.json();
+
+        return {
+            info: responseData.info,
+            status: response.status
+        };
+    } catch (error) {
+        if (error instanceof Error && error.name === 'AbortError')
+            return {
+                info: "Unable to process subscription request - check API connection",
+                status: 503
+            };
+        }
+        return {
+            info: "Error occured during processing email subscription request",
+            status: 500
+        };
+    }
+
+    export async function unsubscribe_notification(email: string): Promise<{ info: string; status: number }> {
+        const bodyJson = JSON.stringify({
+            email: email,
+        });
+        try {
+            const response = await fetchWithTimeout(`${baseUrl}${unsubscribeEndpoint}`, {
+                method: 'POST',
+                mode: "cors",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: bodyJson, 
+                credentials: 'include',
+            }, 1000);
+            
+            const responseData = await response.json();
+
+            return {
+                info: responseData.info,
+                status: response.status
+            };
+        } catch (error) {
+            return {
+                info: "An error occurred while unsubscribing",
+                status: 500
+            };
+        }
+    }
