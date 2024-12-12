@@ -3,6 +3,7 @@ import { Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useDataContext } from '../data/DataProvider';
 import ConnectButton from './ConnectWalletButton';
+import { Padding } from '@mui/icons-material';
 
 
 export default function MyToolbar() {    
@@ -32,7 +33,7 @@ export default function MyToolbar() {
     <>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant="h6" component="div">
-          Arbitrage UI
+          ArbitrageUI
         </Typography>
         
         <Box sx={{ display: 'flex', alignItems: 'center', ml: 'auto' }}>

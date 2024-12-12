@@ -3,7 +3,7 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import HomeIcon from '@mui/icons-material/Home';
+import PaidIcon from '@mui/icons-material/Paid';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Link } from 'react-router-dom';
 
@@ -12,9 +12,9 @@ export default function MyNavigation() {
     <List>
       <ListItemButton component={Link} to="/">
         <ListItemIcon sx={{ minWidth: '40px' }}>
-          <HomeIcon fontSize="large" />
+          <PaidIcon fontSize="large" />
         </ListItemIcon>
-        <ListItemText primary="Home" />
+        <ListItemText primary="Deals" />
       </ListItemButton>
       <ListItemButton component={Link} to="/settings">
         <ListItemIcon sx={{ minWidth: '40px' }}>

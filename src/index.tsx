@@ -4,12 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { indigo } from '@mui/material/colors';
 import { HashRouter } from 'react-router-dom';
 import { setupXHRInterceptor } from './interceptors/xhrInterceptor';
 
 setupXHRInterceptor();
-
 
 let theme = createTheme({
   palette: {
