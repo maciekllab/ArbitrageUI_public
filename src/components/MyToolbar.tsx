@@ -32,7 +32,7 @@ export default function MyToolbar() {
   return (
     <>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <img src='favicon.ico' width={36} height={36}></img>
+        <img src={`${process.env.PUBLIC_URL}/favicon.ico`} width={36} height={36}></img>
         <Typography variant="h6" component="div"  sx={{ml:1}}>
          ArbitrageUI
         </Typography>
