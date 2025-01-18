@@ -32,8 +32,9 @@ export default function MyToolbar() {
   return (
     <>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="h6" component="div">
-          ArbitrageUI
+        <img src='favicon.ico' width={36} height={36}></img>
+        <Typography variant="h6" component="div"  sx={{ml:1}}>
+         ArbitrageUI
         </Typography>
         
         <Box sx={{ display: 'flex', alignItems: 'center', ml: 'auto' }}>

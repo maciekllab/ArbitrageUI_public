@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Container, Typography, FormControlLabel, Checkbox, TextField, Box, Paper, Button, Stack } from '@mui/material';
 import { useDataContext, useSettings } from '../data/DataProvider';
 import { APISettings, UISettings } from '../data/DataModels';
-import { useSystemNotification } from '../data/SystemNotification';
-import useSnackbarUtils from '../components/SnackbarUtils';
+import { useSystemNotification } from '../tools/SystemNotification';
+import useSnackbarUtils from '../tools/SnackbarUtils';
 import { useLoading } from '../components/LoadingScreen';
 import SaveIcon from '@mui/icons-material/Save';
 import AttachEmailIcon from '@mui/icons-material/AttachEmail';
@@ -209,9 +209,9 @@ export default function SettingsPage() {
     showLoadingScreen();
     try{
       const result = await subscribe_notifications(userEmail, parsedNotificationsMinProfit);
-      if (result.status == 200 || result.status == 201){
-        showSnackbar("Email notifications added successfully!", "success");
-      } else if (result.status == 202 || result.status == 304 || result.status == 409){
+      if (result.status == 200){
+        showSnackbar("Activation link has been sent, please, verify your email", "success");
+      } else if (result.status == 202 || result.status == 409){
         showSnackbar(result.info, "info");
       } else {
         showSnackbar(result.info, "error");
@@ -225,8 +225,10 @@ export default function SettingsPage() {
     showLoadingScreen();
     try{
       const result = await unsubscribe_notifications(userEmail);
-      if (result.status == 200 || result.status == 201){
+      if (result.status == 200){
         showSnackbar("Email unregistered successfully", "success");
+      } else if (result.status == 404){
+        showSnackbar(result.info, "info");
       } else {
         showSnackbar(result.info, "error");
       }

@@ -5,7 +5,7 @@ import AppRoutes from './AppRoutes';
 import MyNavigation from './components/MyNavigation';
 import MyToolbar from './components/MyToolbar';
 import { DataProvider } from './data/DataProvider';
-import { AutoRefresh } from './data/AutoRefresh';
+import { AutoRefresh } from './tools/AutoRefresh';
 import { SnackbarProvider } from 'notistack';
 import { LoadingProvider } from './components/LoadingScreen';
 

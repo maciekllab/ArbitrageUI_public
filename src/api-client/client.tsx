@@ -117,7 +117,7 @@ export async function updateSetting(key: string, value: string): Promise<boolean
     const bodyJson = JSON.stringify({ key, value });
     try {
         const response = await fetchWithTimeout(`${baseUrl}${updateSettingEndpoint}`, {
-            method: 'POST',
+            method: 'PUT',
             mode: "cors",
             headers: {
                 'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ export async function updateSetting(key: string, value: string): Promise<boolean
             body: bodyJson, 
             credentials: 'include',
         }, 1000);
-         return response.ok &&  response.status === 201;
+         return response.ok &&  (response.status === 201 || response.status === 200);
     } catch {
         return false;
     }
@@ -150,7 +150,7 @@ export async function subscribe_notification(email: string, min_profit: number):
         const responseData = await response.json();
 
         return {
-            info: responseData.info,
+            info: responseData.message,
             status: response.status
         };
     } catch (error) {
@@ -172,7 +172,7 @@ export async function subscribe_notification(email: string, min_profit: number):
         });
         try {
             const response = await fetchWithTimeout(`${baseUrl}${unsubscribeEndpoint}`, {
-                method: 'POST',
+                method: 'DELETE',
                 mode: "cors",
                 headers: {
                     'Content-Type': 'application/json',
@@ -184,7 +184,7 @@ export async function subscribe_notification(email: string, min_profit: number):
             const responseData = await response.json();
 
             return {
-                info: responseData.info,
+                info: responseData.message,
                 status: response.status
             };
         } catch (error) {

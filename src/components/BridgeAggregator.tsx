@@ -1,6 +1,15 @@
 import { Bridge } from "@socket.tech/plugin";
-import { useEthersProvider } from "./WalletProvider";
+import { useEthersProvider } from "../tools/WalletProvider";
 import { Dialog } from "@mui/material";
+
+export interface BridgeAggregatorDialogProps {
+    open: boolean;
+    onClose: () => void;
+    defaultSourceChainID: number;
+    defaultDestinationChainID: number;
+    defaultSourceTokenAddress: string;
+    defaultDestinationTokenAddress: string;
+}
 
 export function BridgeAggregator(props: BridgeAggregatorDialogProps) {
     const { defaultSourceChainID, defaultDestinationChainID, defaultSourceTokenAddress, defaultDestinationTokenAddress } = props;
@@ -19,17 +28,8 @@ export function BridgeAggregator(props: BridgeAggregatorDialogProps) {
     );
 }
 
-export interface BridgeAggregatorDialogProps {
-    open: boolean;
-    onClose: () => void;
-    defaultSourceChainID: number;
-    defaultDestinationChainID: number;
-    defaultSourceTokenAddress: string;
-    defaultDestinationTokenAddress: string;
-}
-
 export function BridgeAggregatorDialog(props: BridgeAggregatorDialogProps) {
-    const { onClose, open, defaultDestinationChainID, defaultSourceChainID, defaultDestinationTokenAddress, defaultSourceTokenAddress } = props;
+    const { onClose,open,defaultDestinationChainID,defaultSourceChainID,defaultDestinationTokenAddress,defaultSourceTokenAddress } = props;
 
     const handleClose = () => {
         onClose();

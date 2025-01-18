@@ -12,8 +12,8 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import MyBarChart from './MyBarChart';
 import {BridgeAggregatorDialog } from './BridgeAggregator';
 import InfoIcon from '@mui/icons-material/Info';
-import { useEthersProvider } from "./WalletProvider";
-import useSnackbarUtils from './SnackbarUtils';
+import { useEthersProvider } from "../tools/WalletProvider";
+import useSnackbarUtils from '../tools/SnackbarUtils';
 
 type MyDataGridProps = {
   data: DealResponseWrapper[];
@@ -44,6 +44,11 @@ export default function MyDataGrid({ data }: MyDataGridProps) {
     }));
     setRows(formattedRows);
   }, [data]);
+
+  function capitalizeFirstLetter(text: string): string {
+    if (!text) return text;
+    return text.charAt(0).toUpperCase() + text.slice(1);
+}
 
   const handleShowChartClick = (rowData: DealResponseWrapper) => {
     setClickedChartRow(rowData);
@@ -203,13 +208,13 @@ export default function MyDataGrid({ data }: MyDataGridProps) {
         const quoteTokenSupportedOnDestChain = isTokenSupportedForChain(row.dest_chain_sell_token_address, row.dest_chain);
         const bothSupportedForQuote = quoteTokenSupportedOnDestChain && qouteTokenSupportedOnSourceChain;
         const firstDirectionSupportedText = bothSupportedForQuote ? "OK" : "NOT SUPPORTED"
-        const directionText: string = `${row.source_token} / ${row.dest_token}  -  ${firstDirectionSupportedText}`;
+        const directionText: string = `${row.dest_token} from ${capitalizeFirstLetter(row.source_chain)} -  ${firstDirectionSupportedText}`;
 
         const baseTokenSupportedOnDestChain = isTokenSupportedForChain(row.dest_chain_buy_token_address, row.dest_chain);
         const baseTokenSupportedOnSourceChain = isTokenSupportedForChain(row.source_chain_sell_token_address, row.source_chain);
         const bothSupportedForBase = baseTokenSupportedOnDestChain && baseTokenSupportedOnSourceChain;
         const invertedDirectionSupportedText = bothSupportedForBase ? "OK" : "NOT SUPPORTED"
-        const invertedDirectionText: string = `${row.dest_token} / ${row.source_token}  -  ${invertedDirectionSupportedText}`;
+        const invertedDirectionText: string = `${row.source_token} from ${capitalizeFirstLetter(row.dest_chain)} -  ${invertedDirectionSupportedText}`;
         
         let color: IconButtonProps["color"] = "error";
         if(bothSupportedForQuote || bothSupportedForBase){

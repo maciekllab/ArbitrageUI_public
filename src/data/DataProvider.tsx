@@ -1,8 +1,8 @@
 import React, { createContext, useState, ReactNode, useEffect } from 'react';
 import { DataContext, DealResponseWrapper, UISettings, APISettings, AllSettings } from './DataModels';
 import { getDeals, updateSetting, getSettings, ApiConnectionError, authenticate, subscribe_notification, unsubscribe_notification } from '../api-client/client';
-import { useSystemNotification } from './SystemNotification';
-import useSnackbarUtils from '../components/SnackbarUtils';
+import { useSystemNotification } from '../tools/SystemNotification';
+import useSnackbarUtils from '../tools/SnackbarUtils';
 import { useLoading } from '../components/LoadingScreen';
 import lineaTokenList from '../external_data/chain59144.json';
 import optimismTokenList from '../external_data/chain10.json';

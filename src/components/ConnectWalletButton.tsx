@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ethers } from 'ethers';
 import Button from '@mui/material/Button';
 import WalletIcon from '@mui/icons-material/WalletOutlined';
-import useSnackbarUtils from "./SnackbarUtils";
+import useSnackbarUtils from "../tools/SnackbarUtils";
 
 function ConnectButton() {
   const [walletAddress, setWalletAddress] = useState("");

@@ -13,18 +13,18 @@ let theme = createTheme({
   palette: {
     mode:"dark",
     primary: {
-      main: '#E2703A',
+      main: '#FF6500',
       contrastText: '#fff',
     },
     background: {
-      default: '#393053',
-      paper: '#443C68',
+      default: '#0f0f0f',
+      paper: '#0B192C',
     },
     text: {
-      primary: '#bebdbf'
+      primary: '#fff'
     },
     action: {
-      active: '#888888',
+      active: '#f0f0f0',
     },
   },
 });
