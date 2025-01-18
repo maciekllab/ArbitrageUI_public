@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkarbitrage_ui=self.webpackChunkarbitrage_ui||[]).push([[19933],{19933:(r,a,e)=>{e.r(a),e.d(a,{default:()=>u});var l=e(9079),h=e(65043),t=e(70579),f=(0,h.forwardRef)(((r,a)=>{let{fallback:e,...h}=r;return(0,t.jsx)(l.h,{fallback:e,...h,ref:a,children:(0,t.jsx)("path",{fill:"currentColor",d:"m5.492 22 9.134-15.808 1.1 4.092L8.964 22h3.462l4.392-7.604L18.868 22h3.102l-3.032-11.296 2.152-4.037h-3.152L16.598 2h-3.022L2.03 22z"})})}));f.displayName="NetworkAlgorand";var u=f}}]);
+//# sourceMappingURL=19933.89850284.chunk.js.map

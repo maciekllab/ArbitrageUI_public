@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkarbitrage_ui=self.webpackChunkarbitrage_ui||[]).push([[55399],{55399:(a,r,e)=>{e.r(r),e.d(r,{default:()=>h});var l=e(9079),f=e(65043),t=e(70579),u=(0,f.forwardRef)(((a,r)=>{let{fallback:e,...f}=a;return(0,t.jsx)(l.h,{fallback:e,...f,ref:r,children:(0,t.jsx)("path",{fill:"currentColor",d:"M2 2h20v3.571H5.571v2.143H22v3.572H2zm0 10.714h20v3.572H5.571v2.142H22V22H2z"})})}));u.displayName="TokenEUROE";var h=u}}]);
+//# sourceMappingURL=55399.88e348e1.chunk.js.map
